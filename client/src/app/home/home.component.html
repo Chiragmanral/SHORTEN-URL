@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+  <header>
+    <div class="header">
+      <a routerLink="/" class="logo">ShortURL</a>
+    </div>
+  </header>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-backdrop" *ngIf="deleteModalOpen" (click)="closeModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <h3><i class="fas fa-exclamation-triangle"></i> Delete this note?</h3>
+      <p>This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="modal-btn danger" (click)="confirmDelete()"><i class="fas fa-trash"></i> Delete</button>
+        <button class="modal-btn" (click)="closeModal()"><i class="fas fa-times"></i> Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <main id="urlbox">
+    <section class="urlSection">
+      <h1>🔗 Paste the URL to be shortened</h1>
+
+      <form (submit)="$event.preventDefault(); shorten()">
+        <input [(ngModel)]="longUrl" name="link" type="url" placeholder="https://example.com/very/long/url"
+          class="inputLink" required />
+
+        <div class="btn-container">
+          <button class="btn" type="submit">🚀 Shorten URL</button>
+          <button class="btn secondary" type="button" (click)="goToHome()">🏠 Home</button>
+          <button class="btn logout" type="button" (click)="logOut()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+      </form>
+
+      <div *ngIf="!isValidUrl" class="error">
+        ❌ Please enter a valid URL!
+      </div>
+
+      <div *ngIf="isUrlAlreadyShort" class="error">
+        ⚠️ Entered URL is already short!
+      </div>
+
+      <div *ngIf="shortUrl" class="result-card">
+        <h3>Your Shortened Link</h3>
+
+        <div class="short-url-box">
+          <a [href]="shortUrl" target="_blank" (click)="getTotalClicks()">
+            {{ domainName }}{{ shortId }}
+          </a>
+          <button class="btn copy-btn" (click)="copyToClipboard(domainName + shortId)">📋 Copy</button>
+        </div>
+
+        <p *ngIf="clickCount !== null" class="click-info">
+          🔢 <strong>Total Clicks:</strong> {{ clickCount }}
+        </p>
+      </div>
+
+      <p class="footer-text">
+        🚀 ShortURL is a free tool to shorten URLs and generate smart links.<br />
+        Easily share clean and trackable links.
+      </p>
+    </section>
+  </main>
+
+  <!-- All user short urls -->
+  <div *ngIf="userShortUrls.length > 0" class="urls-section">
+    <h2>🔗 Your Shortened URLs</h2>
+    <div class="url-cards">
+      <div *ngFor="let shortUrl of userShortUrls" class="url-card">
+        <p><strong>Original:</strong></p>
+        <p>{{ shortUrl.redirectUrl }}</p>
+        <p>
+          <strong>Short:</strong>
+          <a [href]="domainName + shortUrl.shortId" target="_blank">
+            {{ domainName }}{{ shortUrl.shortId }}
+          </a>
+        </p>
+        <p>📊 Clicks: {{ shortUrl.visitHistory.length }}</p>
+        <div class="btnSection">
+          <button class="btn" (click)="copyToClipboard(domainName + shortUrl.shortId)">📋 Copy</button>
+          <button class="btn btn-delete" (click)="deleteShortUrl(shortUrl.shortId)">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

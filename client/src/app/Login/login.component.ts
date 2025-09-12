@@ -15,10 +15,11 @@ import { FormsModule } from '@angular/forms';
 export class LoginComponent {
   email = '';
   password = '';
-  isInvalidCredentials : boolean = false;
+  isInvalidCredentials: boolean = false;
   isEmptyCredentials : boolean = false;
+  isSubmitting : boolean = false;
 
-  constructor(private http: HttpClient, private router: Router, private auth: AuthService) {}
+  constructor(private http: HttpClient, private router: Router, private auth: AuthService) { }
 
   login() {
     if(!this.email || !this.password) {
@@ -26,7 +27,9 @@ export class LoginComponent {
       this.isInvalidCredentials = false;
       return;
     }
-    this.http.post<{ success: boolean, accessToken? : string, refreshToken? : string }>('http://localhost:8000/auth/login', {
+    this.http.post<{
+      success: boolean, accessToken?: string, refreshToken?: string, msg ?: string
+    }>('http://localhost:8000/auth/login', {
       email: this.email,
       password: this.password
     }).subscribe({
@@ -41,7 +44,14 @@ export class LoginComponent {
           this.password = "";
         }
       },
-      error: () => alert('Server error – check backend console.')
+      error: (err) => {
+        if (err.status === 400 && err.error.msg) {
+          this.isInvalidCredentials = true;
+          this.isEmptyCredentials = false;
+        } else {
+          alert("Server error – please try again later.");
+        }
+      }
     });
   }
 

@@ -16,15 +16,13 @@
 
             <label for="password"></label>
             <input [(ngModel)]="password" type="password" placeholder="Password" name="password" required/>
-            <div *ngIf="isEmptyCredentials" class="error"> Please enter both email and password!!</div>
-            <div *ngIf="isInvalidCredentials" class="error">
-                The e-mail address and/or password you specified are not correct.
-            </div>
+            <small *ngIf="isEmptyCredentials" class="error">*Please enter email and password!!</small>
+            <small *ngIf="isInvalidCredentials" class="error">*The e-mail address and/or password you specified are not correct.
+            </small>
             <button type="submit" class="form-button">Login</button>
-            <p>New user? <a (click)="goToSignup()">Signup</a></p>
+            <small class="msg">Don't have an account yet?</small>
+            <a (click)="goToSignup()">Create your Free account now</a>
         </form>
-    
     </div>
-
 </body>
 </html>

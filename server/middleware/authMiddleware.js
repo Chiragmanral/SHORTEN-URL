@@ -14,7 +14,7 @@ function authenticateToken(req, res, next) {
             if (err.name === "TokenExpiredError") msg = "Token expired";
             else if (err.name === "JsonWebTokenError") msg = "Malformed token";
 
-            return res.status(403).json({ msg, loggedIn: false });
+            return res.status(401).json({ msg, loggedIn: false });
         }
 
         req.user = decodedUser; 

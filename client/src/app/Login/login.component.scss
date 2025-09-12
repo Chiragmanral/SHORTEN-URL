@@ -61,15 +61,33 @@ select {
 }
 
 a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: #1e3a8a;
     text-decoration: underline;
     word-break: break-all;
+    font-size: 15px;
+
+    &:hover {
+        text-decoration: none;
+    }
 }
 
-.error {
+.error{
     color: red;
-    font-weight: lighter;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
     margin-top: 0;
     padding-top: 0;
     margin-bottom: 1rem;
+}
+
+.msg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
 }

@@ -57,7 +57,7 @@
           <a [href]="shortUrl" target="_blank" (click)="getTotalClicks()">
             {{ domainName }}{{ shortId }}
           </a>
-          <button class="btn copy-btn" (click)="copyToClipboard(domainName + shortId)">📋 Copy</button>
+          <button class="btn copy-btn" (click)="copyToClipboard(domainName + shortId)">📋 {{ copiedStates[domainName + shortId] || "Copy" }}</button>
         </div>
 
         <p *ngIf="clickCount !== null" class="click-info">
@@ -87,7 +87,7 @@
         </p>
         <p>📊 Clicks: {{ shortUrl.visitHistory.length }}</p>
         <div class="btnSection">
-          <button class="btn" (click)="copyToClipboard(domainName + shortUrl.shortId)">📋 Copy</button>
+          <button class="btn" (click)="copyToClipboard(domainName + shortUrl.shortId)">📋 {{ copiedStates[domainName + shortUrl.shortId] || "Copy" }}</button>
           <button class="btn btn-delete" (click)="deleteShortUrl(shortUrl.shortId)">
             <i class="fas fa-trash"></i> Delete
           </button>

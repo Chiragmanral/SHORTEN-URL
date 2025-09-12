@@ -1,15 +1,13 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, of, tap } from "rxjs";
+import { Router } from '@angular/router';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
-@Injectable({
-    providedIn : "root"
-})
-
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private API_URL = 'http://localhost:8000';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   saveTokens(accessToken: string, refreshToken: string) {
     localStorage.setItem('accessToken', accessToken);
@@ -63,10 +61,26 @@ export class AuthService {
   }
 
   logout() {
-    this.clearTokens();
-    window.location.href = '/login';
-    return this.http.post(`${this.API_URL}/auth/logout`, {
-      refreshToken: this.getRefreshToken()
-    });
+    const refreshToken = this.getRefreshToken();
+
+    if(!refreshToken) {
+      this.clearTokens();
+      this.router.navigate(['/login']);
+    }
+
+    else {
+      this.http.post<{ msg: string }>(`${this.API_URL}/auth/logout`, { refreshToken })
+        .subscribe({
+          next: () => {
+            this.clearTokens();
+            this.router.navigate(['/login']); 
+          },
+          error: () => {
+            // Even if backend fails, we should still clear local tokens(from local storage)
+            this.clearTokens();
+            this.router.navigate(['/login']);
+          }
+        });
+    }
   }
 }

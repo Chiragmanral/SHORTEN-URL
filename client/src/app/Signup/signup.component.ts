@@ -51,7 +51,7 @@ export class SignupComponent {
     }
 
     else {
-      this.http.post<{ success: boolean, msg ?: string }>('http://localhost:8000/auth/signup', {
+      this.http.post<{ success: boolean, msg ?: string }>('https://shorten-url-2-yomi.onrender.com/auth/signup', {
       email: this.email,
       password: this.password
     }).subscribe({

@@ -17,7 +17,7 @@ export class HomeComponent {
   shortId : string = '';
   shortUrl : string = '';
   // domainName : string = "https://nanofy.com/";
-  domainName : string = "http://localhost:8000/";
+  domainName : string = "https://shorten-url-2-yomi.onrender.com/";
   isUrlAlreadyShort : boolean = false;
   isValidUrl : boolean = true;
   clickCount: number | null = null;
@@ -54,13 +54,13 @@ export class HomeComponent {
     }
 
     this.http
-      .post<{ shortId: string }>('http://localhost:8000/short', {
+      .post<{ shortId: string }>('https://shorten-url-2-yomi.onrender.com/short', {
         redirectUrl: this.longUrl,
       })
       .subscribe({
         next: ({ shortId }) => {
           this.shortId = shortId;
-          this.shortUrl = `http://localhost:8000/${shortId}`;
+          this.shortUrl = `https://shorten-url-2-yomi.onrender.com/${shortId}`;
           this.clickCount = 0;
           this.isUrlAlreadyShort = false;
         },
@@ -78,7 +78,7 @@ export class HomeComponent {
   getTotalClicks() {
     this.http
             .get<{ totalClicks: number }>(
-              `http://localhost:8000/analytics/${this.shortId}`
+              `https://shorten-url-2-yomi.onrender.com/analytics/${this.shortId}`
             )
             .subscribe({
               next : (analytics) => {
@@ -112,7 +112,7 @@ export class HomeComponent {
     if (!accessToken) return;
 
     this.http.get<{ shortUrls : any[] }>(
-      "http://localhost:8000/shortUrls",
+      "https://shorten-url-2-yomi.onrender.com/shortUrls",
     ).subscribe({
       next: (res) => this.userShortUrls = res.shortUrls,
       error: (err: HttpErrorResponse) => {
@@ -145,7 +145,7 @@ export class HomeComponent {
   confirmDelete() {
     if (this.urlToDelete) {
       this.http.post<{ deleted: boolean }>(
-        "http://localhost:8000/deleteShortUrl",
+        "https://shorten-url-2-yomi.onrender.com/deleteShortUrl",
         { urlShortId : this.urlToDelete }
       ).subscribe({
         next: (res) => {

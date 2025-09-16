@@ -29,7 +29,7 @@ export class LoginComponent {
     }
     this.http.post<{
       success: boolean, accessToken?: string, refreshToken?: string, msg ?: string
-    }>('http://localhost:8000/auth/login', {
+    }>('https://shorten-url-2-yomi.onrender.com/auth/login', {
       email: this.email,
       password: this.password
     }).subscribe({

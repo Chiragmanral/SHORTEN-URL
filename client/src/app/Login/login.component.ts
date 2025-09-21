@@ -29,7 +29,7 @@ export class LoginComponent {
     }
     this.http.post<{
       success: boolean, accessToken?: string, refreshToken?: string, msg ?: string
-    }>('https://shorten-url-2-yomi.onrender.com/auth/login', {
+    }>('https://api.chirag.engineer/auth/login', {
       email: this.email,
       password: this.password
     }).subscribe({

@@ -51,7 +51,7 @@ export class SignupComponent {
     }
 
     else {
-      this.http.post<{ success: boolean, msg ?: string }>('https://shorten-url-2-yomi.onrender.com/auth/signup', {
+      this.http.post<{ success: boolean, msg ?: string }>('https://api.chirag.engineer/auth/signup', {
       email: this.email,
       password: this.password
     }).subscribe({

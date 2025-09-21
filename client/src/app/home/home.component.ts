@@ -17,7 +17,7 @@ export class HomeComponent {
   shortId : string = '';
   shortUrl : string = '';
   // domainName : string = "https://nanofy.com/";
-  domainName : string = "https://shorten-url-2-yomi.onrender.com/";
+  domainName : string = "https://api.chirag.engineer/";
   isUrlAlreadyShort : boolean = false;
   isValidUrl : boolean = true;
   clickCount: number | null = null;
@@ -54,13 +54,13 @@ export class HomeComponent {
     }
 
     this.http
-      .post<{ shortId: string }>('https://shorten-url-2-yomi.onrender.com/short', {
+      .post<{ shortId: string }>('https://api.chirag.engineer/short', {
         redirectUrl: this.longUrl,
       })
       .subscribe({
         next: ({ shortId }) => {
           this.shortId = shortId;
-          this.shortUrl = `https://shorten-url-2-yomi.onrender.com/${shortId}`;
+          this.shortUrl = `https://api.chirag.engineer/${shortId}`;
           this.clickCount = 0;
           this.isUrlAlreadyShort = false;
         },
@@ -78,7 +78,7 @@ export class HomeComponent {
   getTotalClicks() {
     this.http
             .get<{ totalClicks: number }>(
-              `https://shorten-url-2-yomi.onrender.com/analytics/${this.shortId}`
+              `https://api.chirag.engineer/analytics/${this.shortId}`
             )
             .subscribe({
               next : (analytics) => {
@@ -112,7 +112,7 @@ export class HomeComponent {
     if (!accessToken) return;
 
     this.http.get<{ shortUrls : any[] }>(
-      "https://shorten-url-2-yomi.onrender.com/shortUrls",
+      "https://api.chirag.engineer/shortUrls",
     ).subscribe({
       next: (res) => this.userShortUrls = res.shortUrls,
       error: (err: HttpErrorResponse) => {
@@ -145,7 +145,7 @@ export class HomeComponent {
   confirmDelete() {
     if (this.urlToDelete) {
       this.http.post<{ deleted: boolean }>(
-        "https://shorten-url-2-yomi.onrender.com/deleteShortUrl",
+        "https://api.chirag.engineer/deleteShortUrl",
         { urlShortId : this.urlToDelete }
       ).subscribe({
         next: (res) => {

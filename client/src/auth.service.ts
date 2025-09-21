@@ -5,7 +5,7 @@ import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private API_URL = 'https://shorten-url-2-yomi.onrender.com';
+  private API_URL = 'https://api.chirag.engineer';
 
   constructor(private http: HttpClient, private router: Router) { }
 

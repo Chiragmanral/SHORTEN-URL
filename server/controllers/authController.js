@@ -4,10 +4,10 @@ const User = require("../models/User");
 const { hashEmail } = require("../utils/cryptoUtils");
 
 function generateAccessToken(payload) {
-    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15s" });
+    return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 }
 function generateRefreshToken(payload) {
-    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "10m" });
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
 }
 
 exports.isTokensValid = async (req, res) => {
